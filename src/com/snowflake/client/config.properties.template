@@ -1,0 +1,17 @@
+SNFLK_USER=<PUT_HERE>
+SNFLK_PWD=<PUT_HERE>
+SNFLK_WH=<PUT_HERE>
+SNFLK_DB=<PUT_HERE>
+SNFLK_SCHEMA=<PUT_HERE>
+SNFLK_ROLE=<PUT_HERE>
+SNFLK_ACCT=<PUT_HERE>
+SNFLK_AUTO_COMMIT=false
+#SNFLK_TRACING=all
+#  WARNING - Debug mode will print all DB properties to the console INCLUDING your password
+#DEBUG_MODE=true
+# ~3 seconds per object
+NUM_RANDOM_OBJECTS=2
+# Batch size
+BATCH_SIZE=10
+# JSON Object Size
+JSON_OBJ_SIZE=16000000
