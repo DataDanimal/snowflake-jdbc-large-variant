@@ -33,7 +33,7 @@ https://docs.snowflake.com/en/user-guide/jdbc-using.html#batch-updates
 4. Edit the config.properties.template for your Snowflake account connection details, save it a convenient and safe directory
 5. Execute the following command to initialize the connections, prepare the batch inserts, and execute the statements:
 
-        java -cp <LIBRARY_PATH>snowflake-jdbc-3.12.2.jar:<LIBRARY_PATH>/javax.json-api-1.1.4.jar:. com.snowflake.client.SnowflakeStageLargeVariant <LIBRARY_PATH>/config.properties
+        java -cp <LIBRARY_PATH>snowflake-jdbc-3.12.2.jar:<LIBRARY_PATH>/javax.json-1.1.4.jar:. com.snowflake.client.SnowflakeStageLargeVariant <LIBRARY_PATH>/config.properties
 
 6. Login to Snowflake account, query table `<SNFLK_DB>.<SNFLK_SCHEMA>.large_insert`
 
