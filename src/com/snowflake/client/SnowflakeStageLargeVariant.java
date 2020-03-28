@@ -98,11 +98,11 @@ public class SnowflakeStageLargeVariant {
             pstmt.addBatch();
             insertCnt++;
             if (insertCnt  %  batchSize == 0) {
-                ts = new Timestamp(System.currentTimeMillis());
-                System.out.println("Batch size limit of " + batchSize + " reached after insert " + insertCnt + " at " + ts);
                 int[] count_interval = pstmt.executeBatch(); // After execution, count[0]=1, count[1]=1
                 connection.commit();
                 pstmt.close();
+                ts = new Timestamp(System.currentTimeMillis());
+                System.out.println("Batch size limit of " + batchSize + " reached after insert " + insertCnt + " at " + ts);
                 pstmt = connection.prepareStatement("insert into  large_insert (json_msg) select  column1::variant from values (?)");
             }
         }
