@@ -36,16 +36,12 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.StringWriter;
 import java.io.FileInputStream;
-import java.io.InputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
+import java.io.InputStream;
+import java.io.StringWriter;
 import java.sql.*;
 import java.util.Properties;
-import java.util.Date;
 import java.util.UUID;
 
 public class SnowflakeStageLargeVariant {
@@ -84,8 +80,8 @@ public class SnowflakeStageLargeVariant {
 
         ts = new Timestamp(System.currentTimeMillis());
         System.out.println("Preparing statement at " + ts);
-        PreparedStatement pstmt = connection.prepareStatement("insert into  large_insert (json_msg) select  column1::variant from values (?)");
-
+        String stmtStr = "insert into  large_insert (json_msg) select  parse_json(column1) from values (?)";
+        PreparedStatement pstmt = connection.prepareStatement(stmtStr);
         System.out.println("Adding batch inserts");
         int insertCnt = 0;
         int totalInserts = Integer.parseInt(myprops.getProperty("random_objects"));
@@ -103,7 +99,7 @@ public class SnowflakeStageLargeVariant {
                 pstmt.close();
                 ts = new Timestamp(System.currentTimeMillis());
                 System.out.println("Batch size limit of " + batchSize + " reached after insert " + insertCnt + " at " + ts);
-                pstmt = connection.prepareStatement("insert into  large_insert (json_msg) select  column1::variant from values (?)");
+                pstmt = connection.prepareStatement(stmtStr);
             }
         }
         System.out.println("Added " + insertCnt + " inserts");
@@ -210,4 +206,3 @@ public class SnowflakeStageLargeVariant {
         return strWtr.toString();
     }
 }
-
