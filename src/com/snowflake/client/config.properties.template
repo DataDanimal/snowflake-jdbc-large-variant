@@ -1,5 +1,5 @@
 SNFLK_USER=<PUT_HERE>
-SNFLK_PWD=<PUT_HERE>
+SNFLK_PWD=<PUT_HERE_WITH_EXTREME_CAUTION_AND_NEVER_EXPOSE>
 SNFLK_WH=<PUT_HERE>
 SNFLK_DB=<PUT_HERE>
 SNFLK_SCHEMA=<PUT_HERE>
@@ -7,11 +7,33 @@ SNFLK_ROLE=<PUT_HERE>
 SNFLK_ACCT=<PUT_HERE>
 SNFLK_AUTO_COMMIT=false
 #SNFLK_TRACING=all
+#################################################################################################
 #  WARNING - Debug mode will print all DB properties to the console INCLUDING your password
 #DEBUG_MODE=true
-# ~3 seconds per object
-NUM_RANDOM_OBJECTS=2
+#################################################################################################
+# For maximum ingestion rate, increase the transaction size and batch size, and lower the Json object size.
+# This will ensure Snowflake driver uses the stage array binding, which performs must faster than conventional binding
+NUM_RANDOM_OBJECTS=1000000
+#################################################################################################
 # Batch size
-BATCH_SIZE=10
+BATCH_SIZE=50000
+#################################################################################################
 # JSON Object Size
-JSON_OBJ_SIZE=16000000
+JSON_OBJ_SIZE=4000
+#################################################################################################
+# To take advantage of stage binding, set this to FALSE , the below to bind arrays will not trigger Stage array binding
+USE_VARIANT=FALSE
+#################################################################################################
+# NOTE -
+# The array threshold is set in your account using parameter CLIENT_STAGE_ARRAY_BINDING_THRESHOLD (default = 65280)
+# Queries using array binding with more bind values than this parameter will attempt to upload binds to a stage instead of passing them as part of the query payload. A value of 0 means this is disabled.
+# See https://docs.snowflake.com/en/user-guide/jdbc-using.html#batch-updates
+# True will drop the logging and data tables prior to execution
+# Set to TRUE on initial execution to create the objects
+DROP_OBJECTS=FALSE
+#################################################################################################
+# Log results will capture output at end as JSON for later analysis
+LOG_RESULTS=TRUE
+#################################################################################################
+# Reset loging will clear prior results
+RESET_LOGS=FALSE

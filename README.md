@@ -1,7 +1,7 @@
 # snowflake-jdbc-large-variant
 Sample app to demonstrate loading large variants using Snowflake JDBC driver and batch inserts
 
-Also, this is for demo purposes only, suited for Sandboxes and POCs
+Also, this is for demo purposes only, suited for Sandboxes and POCs (mileage may vary)
 
 # References
 If unfamiliar with the Snowflake JDBC driver, please reference:
@@ -37,3 +37,17 @@ https://docs.snowflake.com/en/user-guide/jdbc-using.html#batch-updates
 
 6. Login to Snowflake account, query table `<SNFLK_DB>.<SNFLK_SCHEMA>.large_insert`
 
+
+# Recommendations
+1. For heavy data ingest volumes, use conventional `BULK COPY` statements instead of `executeBatch`
+2. For continuous data loading, use Snowpipe with `AUTO_INGEST` set to `TRUE`
+3. Size the batch and array binding to ensure the `CLIENT_STAGE_ARRAY_BINDING_THRESHOLD` is exceeded.  This ensures a temporary `STAGE` s created with inserts running against the temporary stage 
+4. Tune the `CLIENT_STAGE_ARRAY_BINDING_THRESHOLD` as needed.  See https://docs.snowflake.com/en/user-guide/jdbc-using.html#batch-updates
+5. Read carefully the notes for the following properties in the config.properties.template
+        `NUM_RANDOM_OBJECTS`
+        `BATCH_SIZE`
+        `JSON_OBJ_SIZE`
+        `USE_VARIANT`
+        `DROP_OBJECTS`
+        `LOG_RESULTS`
+        `RESET_LOGS`
